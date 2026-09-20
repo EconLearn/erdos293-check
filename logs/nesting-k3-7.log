@@ -1,0 +1,4 @@
+k=3: 3 denominators < 2^26 occur; of these 0 do NOT occur with k+1 terms []
+k=4: 15 denominators < 2^26 occur; of these 0 do NOT occur with k+1 terms []
+k=5: 77 denominators < 2^26 occur; of these 0 do NOT occur with k+1 terms []
+k=6: 1152 denominators < 2^26 occur; of these 0 do NOT occur with k+1 terms []

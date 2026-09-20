@@ -1,0 +1,5 @@
+k=3: 1 representations, 3 (representation, m) pairs extended to k+1 terms, all valid; 1 of them were the 'm is the largest denominator' case
+k=4: 6 representations, 24 (representation, m) pairs extended to k+1 terms, all valid; 6 of them were the 'm is the largest denominator' case
+k=5: 72 representations, 360 (representation, m) pairs extended to k+1 terms, all valid; 72 of them were the 'm is the largest denominator' case
+k=6: 2320 representations, 13920 (representation, m) pairs extended to k+1 terms, all valid; 2320 of them were the 'm is the largest denominator' case
+k=7: 245765 representations, 1720355 (representation, m) pairs extended to k+1 terms, all valid; 245765 of them were the 'm is the largest denominator' case

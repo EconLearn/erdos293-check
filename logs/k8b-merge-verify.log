@@ -1,0 +1,6 @@
+k=8: total representations = 151182379  (expected 151182379: MATCH)
+largest remaining-fraction denominator q seen: 31950157798650
+v(8) = 27539   (least integer >= 2 whose bit is unset; bitmap covers m < 67108864)
+first absent integers >= 2: [27539, 32411, 33647, 34919, 35279, 37199, 38447, 38729, 38803, 39233]
+witnesses verified exactly for m = 2..27538: 27537 ok, 0 bad
+witnesses containing 27539: 0 (must be 0)
