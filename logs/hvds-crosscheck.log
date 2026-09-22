@@ -1,0 +1,11 @@
+$ python3 code/compare_hvds.py results-single out/ef data/k8_present_below_2pow26.bitmap.gz
+# results-single: https://github.com/hvds/seq/blob/master/least_eg/results-single (fetched 2026-09-21, sha256 4b518a2c6e5a8288732c3469c1b36b7436c215962e1d4d4f8cd7f2b52fd97a6a)
+# out/ef: ./code/ef_enum k 0 1 out/ef for k = 3..7
+63982 primes in the table, largest 800399
+k = 3: 63981 odd primes compared, 0 mismatches []
+k = 4: 63981 odd primes compared, 0 mismatches []
+k = 5: 63981 odd primes compared, 0 mismatches []
+k = 6: 63981 odd primes compared, 0 mismatches []
+k = 7: 63981 odd primes compared, 0 mismatches []
+k = 8: 63981 odd primes compared, 0 mismatches []
+OK

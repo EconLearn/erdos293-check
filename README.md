@@ -20,6 +20,8 @@ verified the arguments myself.
 | positive half of v(8) | an explicit representation containing m for **every** 2 ≤ m < 27539 (`data/ef.k8.witnesses.txt`, 27,537 of them), each re-verified with exact rational arithmetic |
 | negative half of v(8) | 27539 occurs in no 8-term representation, confirmed twice: by the full enumeration, and by an independent per-candidate search using a different algorithm (`code/percandidate.py`) |
 | integers missing at k = 8 | the complete list below 200,000: 5,466 of them, beginning 27539, 32411, 33647, 34919, 35279, 37199, … (`data/k8_absent_integers_below_200000.txt`). 1,572 are composite, the first being 53294 |
+| all of k = 8 | every denominator below 2²⁶ that occurs at k = 8, as a bitmap (`data/k8_present_below_2pow26.bitmap.gz`). 57,146,348 integers in that range are missing, and by the nesting lemma only these can be missing at k = 9. The 1,157,643 missing below 3,000,000 are also written out (`data/k8_absent_integers_below_3000000.txt.gz`) |
+| A097048 cross-check | Hugo van der Sanden's table of the least number of distinct unit fractions for (p−1)/p, p prime ≤ 800399 (linked from [A097048](https://oeis.org/A097048)), agrees with the enumeration for every odd prime and every k = 3..8: p occurs in a k-term representation of 1 exactly when his count is at most k−1 (`logs/hvds-crosscheck.log`) |
 | nesting lemma | see below |
 
 ## The nesting lemma
@@ -47,6 +49,10 @@ python3 code/merge_and_verify.py out/ef 7 1 245765     # count, v(7), and every 
 python3 code/percandidate.py vk 7                      # the second method, independently
 python3 code/percandidate.py count 8 27539             # ~30 s: exhaustive, finds nothing
 python3 code/nesting_lemma_check.py 6                  # the lemma, constructively
+
+# candidates for v(9): integers in [A, B) missing at k = 8; or test a search program's k = 8 output
+python3 code/k8_missing.py data/k8_present_below_2pow26.bitmap.gz 2108539 3000000
+python3 code/k8_missing.py data/k8_present_below_2pow26.bitmap.gz --check your_k8_missing.txt 2 200000
 ```
 
 k = 8 is the same program run as nine shards (`./code/ef_enum 8 <w> 9 out/ef` for w = 0..8), about
@@ -62,4 +68,10 @@ output of the runs behind every number above is in `logs/`.
 - `code/merge_and_verify.py` — merges shard output, recomputes v(k), and re-adds every witness with
   `fractions.Fraction`.
 - `code/nesting_lemma_check.py`, `code/check_nesting.py` — the lemma, constructively and from the bitmaps.
+- `code/k8_missing.py` — reads the k = 8 bitmap: lists the missing integers in a range, or compares a
+  list produced by another program with them.
+- `code/compare_hvds.py` — the A097048 cross-check above.
+- `data/k8_present_below_2pow26.bitmap.gz` — bit m (byte m >> 3, bit m & 7) is set iff m occurs in some
+  8-term representation; the OR of the nine shard bitmaps. sha256 of the uncompressed 8 MiB file:
+  `264d491519f0a671cc9cdb394370e86b3586972c95cafe4405e2fcdd48e9946f`.
 - `MATH-NOTES.md` — the method and the proofs, written out.
