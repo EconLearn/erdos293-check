@@ -28,3 +28,18 @@ OK: every m in [2, 9121002] occurs in a 9-term representation of 1, so v(9) > 91
 Second, separate check of the new file (integer common denominators): verified 6999992, bad 0.
 cd9086a1e4a3d56547137e84efa1781061d03f6966b30b7f6c0415e4d5382208  v9_certificates_3000001_to_10000000.txt
 e181fcdd10e1cd469df4066c3d46cda688fa0743209b4e87a094ae583ebb5e45  v9_certificates_3000001_to_10000000.txt.xz
+
+--- 2026-09-22, the eight remaining primes ---
+Same families, with each subproblem run to completion (work cap 2e8; a subproblem finishes in about 28M
+steps) instead of the earlier cap of 2e6:
+  9852313  one multiple, j = 11          9786839  one multiple, j = 29
+  9780599  one multiple, j = 12059       9781259  one multiple, j in (2000, 20000]
+  9243467  one multiple, j = 83          9307751, 9305819  one multiple, j <= 400
+  9121003  two multiples, k1 = 30200, k2 = 4605953, l = 15251
+(ntysdd posted certificates for 9121003, 9243467, 9305819 and 9307751 on #403 first; those were checked
+and are exact. The file here uses the certificates found by this search.)
+
+$ python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt 2 10000000
+bad lines: 0; integers in [2, 10000000] without a certificate: 0 []
+OK: every m in [2, 10000000] occurs in a 9-term representation of 1, so v(9) > 10000000
+sha256 (uncompressed, updated file): 6edaef194cefa5f673493aab6b77a5697a68e9a229cb62004250997234a76c15  v9_certificates_3000001_to_10000000.txt

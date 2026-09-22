@@ -24,21 +24,20 @@ verified the arguments myself.
 | A097048 cross-check | Hugo van der Sanden's table of the least number of distinct unit fractions for (p−1)/p, p prime ≤ 800399 (linked from [A097048](https://oeis.org/A097048)), agrees with the enumeration for every odd prime and every k = 3..8: p occurs in a k-term representation of 1 exactly when his count is at most k−1 (`logs/hvds-crosscheck.log`) |
 | nesting lemma | see below |
 
-## v(9) > 9,121,002, with a certificate for every integer below it
+## v(9) > 10,000,000, with a certificate for every integer up to it
 
-For every integer m with 2 ≤ m ≤ 9,121,002 there is an explicit certificate: nine distinct denominators,
-one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 9,121,002 on the certificates alone,
+For every integer m with 2 ≤ m ≤ 10,000,000 there is an explicit certificate: nine distinct denominators,
+one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 10,000,000 on the certificates alone,
 with no dependence on any search being complete, on the k = 8 enumeration, or on the nesting lemma.
 
 The certificates are attached to the
 [v9-certificates release](https://github.com/EconLearn/erdos293-check/releases/tag/v9-certificates):
 `v9_certificates_2_to_3000000.txt.xz` (65 MB) and `v9_certificates_3000001_to_10000000.txt.xz` (113 MB).
-The second file covers every integer up to 10,000,000 except eight primes that have no certificate
-yet: 9121003, 9243467, 9305819, 9307751, 9780599, 9781259, 9786839, 9852313. To check:
+To check:
 
 ```bash
 xz -dk v9_certificates_2_to_3000000.txt.xz v9_certificates_3000001_to_10000000.txt.xz
-python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt 2 9121002   # ~4 min
+python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt 2 10000000   # ~5 min
 ```
 
 It re-adds every line with `fractions.Fraction` and confirms that no m in the range is missing.
@@ -60,7 +59,10 @@ How the certificates were found (counts in `logs/v9-certificates.log` for m ≤ 
   of p in the representation have to cancel the 1/p p-adically. The two simplest ways: one more multiple
   p(jp − 1), with the remaining 7 terms summing to 1 − j/(jp − 1), or two, pk₁ and pk₂ with
   (k₁ + 1)(k₂ + 1) = 1 + ℓp, with the remaining 6 terms summing to 1 − ℓ/(k₁k₂). Each (j) or (ℓ, k₁, k₂) is a smaller search
-  (17 values below 10,000,000, among them 6,156,713, the first integer the other methods missed).
+  (all 25 values below 10,000,000 that the other methods missed, the first being 6,156,713). Running
+  each subproblem to completion rather than under a small work cap mattered: ntysdd's certificates for
+  9121003, 9243467, 9305819 and 9307751 on #403 showed that the one-multiple family reaches primes the
+  capped search had given up on.
 
 Muhamadiev Faridun (forum, 14 Sep: v(9) > 2,108,538) and ntysdd
 ([#403](https://github.com/teorth/erdosproblems/issues/403): v(9) > 3,000,000 by a scan, with
