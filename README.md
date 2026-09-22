@@ -24,24 +24,27 @@ verified the arguments myself.
 | A097048 cross-check | Hugo van der Sanden's table of the least number of distinct unit fractions for (p−1)/p, p prime ≤ 800399 (linked from [A097048](https://oeis.org/A097048)), agrees with the enumeration for every odd prime and every k = 3..8: p occurs in a k-term representation of 1 exactly when his count is at most k−1 (`logs/hvds-crosscheck.log`) |
 | nesting lemma | see below |
 
-## v(9) > 3,000,000, with a certificate for every integer
+## v(9) > 9,121,002, with a certificate for every integer below it
 
-For every integer m with 2 ≤ m ≤ 3,000,000 there is an explicit certificate: nine distinct denominators,
-one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 3,000,000 on the certificates alone,
+For every integer m with 2 ≤ m ≤ 9,121,002 there is an explicit certificate: nine distinct denominators,
+one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 9,121,002 on the certificates alone,
 with no dependence on any search being complete, on the k = 8 enumeration, or on the nesting lemma.
 
-The file (2,999,999 lines, 65 MB as .xz) is attached to the
-[v9-certificates release](https://github.com/EconLearn/erdos293-check/releases/tag/v9-certificates).
-To check it:
+The certificates are attached to the
+[v9-certificates release](https://github.com/EconLearn/erdos293-check/releases/tag/v9-certificates):
+`v9_certificates_2_to_3000000.txt.xz` (65 MB) and `v9_certificates_3000001_to_10000000.txt.xz` (113 MB).
+The second file covers every integer up to 10,000,000 except eight primes that have no certificate
+yet: 9121003, 9243467, 9305819, 9307751, 9780599, 9781259, 9786839, 9852313. To check:
 
 ```bash
-xz -dk v9_certificates_2_to_3000000.txt.xz
-python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt      # ~40 s
+xz -dk v9_certificates_2_to_3000000.txt.xz v9_certificates_3000001_to_10000000.txt.xz
+python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt 2 9121002   # ~4 min
 ```
 
 It re-adds every line with `fractions.Fraction` and confirms that no m in the range is missing.
 
-How the certificates were found (counts in `logs/v9-certificates.log`):
+How the certificates were found (counts in `logs/v9-certificates.log` for m ≤ 3,000,000 and
+`logs/v9-certificates-3M-10M.log` above that):
 
 - `code/findm.c`: depth-first search for (m−1)/m as 8 distinct unit fractions, none equal to 1/m,
   with a cap on the work per m. This settled 2,988,471 values.
@@ -50,13 +53,19 @@ How the certificates were found (counts in `logs/v9-certificates.log`):
 - `code/lift.py`: an 8-term representation containing m, lifted by the nesting construction (1,155).
 - `code/threesplit.c`: split one term t < m of a 7-term representation into three,
   1/t = 1/m + 1/x + 1/y, using all 245,765 seven-term representations
-  (`data/k7_all_representations.txt.gz`). This settled all 2,797 values the others missed, in under a
-  second.
+  (`data/k7_all_representations.txt.gz`). This settled all 2,797 values the others missed below
+  3,000,000, in under a second, and 6,999,957 of the 7,000,000 integers from 3,000,001 to 10,000,000 in
+  about a minute.
+- `code/padic_jobs.py` + `code/findfrac.c`, for primes p with p − 1 missing at k = 8. The other multiples
+  of p in the representation have to cancel the 1/p p-adically. The two simplest ways: one more multiple
+  p(jp − 1), with the remaining 7 terms summing to 1 − j/(jp − 1), or two, pk₁ and pk₂ with
+  (k₁ + 1)(k₂ + 1) = 1 + ℓp, with the remaining 6 terms summing to 1 − ℓ/(k₁k₂). Each (j) or (ℓ, k₁, k₂) is a smaller search
+  (17 values below 10,000,000, among them 6,156,713, the first integer the other methods missed).
 
 Muhamadiev Faridun (forum, 14 Sep: v(9) > 2,108,538) and ntysdd
 ([#403](https://github.com/teorth/erdosproblems/issues/403): v(9) > 3,000,000 by a scan, with
-certificates for 43,538 values) reached these bounds first. These certificates were found separately;
-118 of them coincide with ntysdd's.
+certificates for 43,538 values) had the earlier bounds. These certificates were found separately; of
+ntysdd's 43,538, only 118 coincide with the ones here.
 
 ## The nesting lemma
 
@@ -105,8 +114,9 @@ output of the runs behind every number above is in `logs/`.
 - `code/k8_missing.py` — reads the k = 8 bitmap: lists the missing integers in a range, or compares a
   list produced by another program with them.
 - `code/compare_hvds.py` — the A097048 cross-check above.
-- `code/findm.c`, `code/split_stage.py`, `code/lift.py`, `code/threesplit.c` — the v(9) certificate
-  search; `code/check_v9_certs.py` — the standalone checker for the certificate file.
+- `code/findm.c`, `code/split_stage.py`, `code/lift.py`, `code/threesplit.c`, `code/padic_jobs.py`,
+  `code/findfrac.c`, `code/padic_build.py` — the v(9) certificate search; `code/check_v9_certs.py` — the
+  standalone checker for the certificate files.
 - `data/k7_all_representations.txt.gz` — every 7-term representation of 1 (245,765 = A006585(7)).
 - `data/k8_present_below_2pow26.bitmap.gz` — bit m (byte m >> 3, bit m & 7) is set iff m occurs in some
   8-term representation; the OR of the nine shard bitmaps. sha256 of the uncompressed 8 MiB file:

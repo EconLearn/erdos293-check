@@ -17,7 +17,7 @@
 typedef unsigned long long u64;
 typedef unsigned __int128 u128;
 
-#define TMAX 3000001u
+#define TMAX 70000001u     /* t < TMAX; the list is scanned downwards from m, so raising it only matters for m > TMAX */
 static uint32_t *spf;
 static u64 (*reps)[7]; static long nreps;
 static long *head, *nxt_idx; static long *occ_rep; static long nocc;   /* per t: linked list of reps */

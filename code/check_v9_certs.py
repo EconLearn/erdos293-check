@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 """
-check_v9_certs.py FILE [LO HI] -- standalone check of the v(9) certificate file.
+check_v9_certs.py FILE... [LO HI] -- standalone check of the v(9) certificate files.
 Jude Wallis, 2026-09-21.
 
 For each line 'm: n_1 ... n_9': the n_i are 9 distinct integers >= 2, m is one of them, and
 sum 1/n_i == 1, computed with fractions.Fraction. Also checks that every m in [LO, HI]
-(default [2, 3000000]) has exactly one line. If all checks pass, every integer in [LO, HI]
+(default [2, 3000000]) has exactly one line across the files. If all checks pass, every integer in [LO, HI]
 occurs in some 9-term representation of 1, so v(9) > HI.
 """
 import sys
 from fractions import Fraction
 
-fn = sys.argv[1]
-lo, hi = (int(sys.argv[2]), int(sys.argv[3])) if len(sys.argv) > 3 else (2, 3000000)
+files = [a for a in sys.argv[1:] if not a.isdigit()]
+nums = [int(a) for a in sys.argv[1:] if a.isdigit()]
+lo, hi = (nums[0], nums[1]) if len(nums) == 2 else (2, 3000000)
 seen = bytearray(hi + 1)
 bad = 0
-for line in open(fn):
+for line in (l for fn in files for l in open(fn)):
     if line.startswith("#") or not line.strip():
         continue
     head, rest = line.split(":")

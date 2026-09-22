@@ -1,0 +1,30 @@
+v(9) > 9,121,002: certificates for every integer 3000001 <= m <= 10000000 except 8 primes (2026-09-22)
+
+stage                                                               integers settled
+three-way split of a 7-term representation, code/threesplit.c           6,999,957
+direct search, code/findm.c (K = 9, work cap 2e7)                              15
+one-term split of an 8-term representation, code/split_stage.py                 3
+p-adic families, code/padic_jobs.py + code/findfrac.c, j, l <= 300              10
+p-adic families, j, l <= 3000                                                    7
+                                                                     total   6,999,992
+
+The 25 integers left after the first three stages were all primes p with p - 1 missing at k = 8.
+For such p, the other multiples of p in a 9-term representation must cancel the 1/p p-adically.
+The two simplest ways:
+  one multiple:  p(jp - 1), and the other 7 terms sum to 1 - j/(jp - 1)
+  two multiples: p k1, p k2 with (k1 + 1)(k2 + 1) = 1 + l p, and the other 6 terms sum to 1 - l/(k1 k2)
+padic_jobs.py lists these subproblems and findfrac.c searches each one.
+Replacing two terms of a 7-term representation by three (1/a + 1/b = 1/m + 1/x + 1/y, all 245,765
+representations, every pair) was also tried on the 25 and settled none.
+
+No certificate yet (j, l <= 3000 exhausted with a work cap of 2e6 per subproblem):
+9121003 9243467 9305819 9307751 9780599 9781259 9786839 9852313
+
+$ python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt 2 9121002
+bad lines: 0; integers in [2, 9121002] without a certificate: 0 []
+OK: every m in [2, 9121002] occurs in a 9-term representation of 1, so v(9) > 9121002
+(232 s)
+
+Second, separate check of the new file (integer common denominators): verified 6999992, bad 0.
+cd9086a1e4a3d56547137e84efa1781061d03f6966b30b7f6c0415e4d5382208  v9_certificates_3000001_to_10000000.txt
+e181fcdd10e1cd469df4066c3d46cda688fa0743209b4e87a094ae583ebb5e45  v9_certificates_3000001_to_10000000.txt.xz
