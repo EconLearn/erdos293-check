@@ -1,0 +1,30 @@
+v(9) > 3,000,000: one certificate for every integer 2 <= m <= 3000000 (2026-09-21, 10-core laptop)
+
+Stages, in the order they were run. Each stage only saw the integers the earlier ones had not settled.
+
+stage                                                     integers settled
+direct search, code/findm.c (K = 9), work cap 2e5..2e7          2,988,423
+direct search, code/findm.c (K = 9), work cap 1e9                      48
+split one term of an 8-term representation, code/split_stage.py     7,576
+  (8-term representations of the d's found by code/findm.c with K = 8)
+lift an 8-term representation containing m, code/lift.py            1,155
+  (8-term representations found by code/findm.c with K = 8)
+split one term of a 7-term representation into three,               2,797
+  code/threesplit.c with data/k7_all_representations.txt.gz
+                                                          total   2,999,999
+
+Of the 1,157,643 integers in [27539, 3000000] missing at k = 8: 1,147,225 by the first direct search,
+48 by the second, 7,576 by splitting one term, and the last 2,794 by the three-way split. The lift
+handled integers present at k = 8 that the first search missed (1,155); the three-way split also took
+the 3 of those that the K = 8 search missed.
+
+$ python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt
+bad lines: 0; integers in [2, 3000000] without a certificate: 0 []
+OK: every m in [2, 3000000] occurs in a 9-term representation of 1, so v(9) > 3000000
+(37 s)
+
+Second, separate check (integer common denominators instead of Fraction): verified 2999999, bad 0.
+
+certificate file: v9_certificates_2_to_3000000.txt, 2,999,999 lines, 226,761,088 bytes
+14fde893e80674d76a130c3fef948b4b9602047eb0d60e6bfa247c5acf99a106  v9_certificates_2_to_3000000.txt
+b03b62624423a7979e0e83c02d36da114da47148d0ca9257f030f69f212f2630  v9_certificates_2_to_3000000.txt.xz

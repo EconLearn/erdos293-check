@@ -24,6 +24,40 @@ verified the arguments myself.
 | A097048 cross-check | Hugo van der Sanden's table of the least number of distinct unit fractions for (p−1)/p, p prime ≤ 800399 (linked from [A097048](https://oeis.org/A097048)), agrees with the enumeration for every odd prime and every k = 3..8: p occurs in a k-term representation of 1 exactly when his count is at most k−1 (`logs/hvds-crosscheck.log`) |
 | nesting lemma | see below |
 
+## v(9) > 3,000,000, with a certificate for every integer
+
+For every integer m with 2 ≤ m ≤ 3,000,000 there is an explicit certificate: nine distinct denominators,
+one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 3,000,000 on the certificates alone,
+with no dependence on any search being complete, on the k = 8 enumeration, or on the nesting lemma.
+
+The file (2,999,999 lines, 65 MB as .xz) is attached to the
+[v9-certificates release](https://github.com/EconLearn/erdos293-check/releases/tag/v9-certificates).
+To check it:
+
+```bash
+xz -dk v9_certificates_2_to_3000000.txt.xz
+python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt      # ~40 s
+```
+
+It re-adds every line with `fractions.Fraction` and confirms that no m in the range is missing.
+
+How the certificates were found (counts in `logs/v9-certificates.log`):
+
+- `code/findm.c`: depth-first search for (m−1)/m as 8 distinct unit fractions, none equal to 1/m,
+  with a cap on the work per m. This settled 2,988,471 values.
+- `code/split_stage.py`: if s divides m² and d = m − s occurs in an 8-term representation W, then
+  1/d = 1/m + 1/(dm/s), so W − {d} + {m, dm/s} works when dm/s is not already in W (7,576 values).
+- `code/lift.py`: an 8-term representation containing m, lifted by the nesting construction (1,155).
+- `code/threesplit.c`: split one term t < m of a 7-term representation into three,
+  1/t = 1/m + 1/x + 1/y, using all 245,765 seven-term representations
+  (`data/k7_all_representations.txt.gz`). This settled all 2,797 values the others missed, in under a
+  second.
+
+Muhamadiev Faridun (forum, 14 Sep: v(9) > 2,108,538) and ntysdd
+([#403](https://github.com/teorth/erdosproblems/issues/403): v(9) > 3,000,000 by a scan, with
+certificates for 43,538 values) reached these bounds first. These certificates were found separately;
+118 of them coincide with ntysdd's.
+
 ## The nesting lemma
 
 If m occurs in a k-term representation (k ≥ 3), it occurs in a (k+1)-term one. This is what makes the
@@ -71,6 +105,9 @@ output of the runs behind every number above is in `logs/`.
 - `code/k8_missing.py` — reads the k = 8 bitmap: lists the missing integers in a range, or compares a
   list produced by another program with them.
 - `code/compare_hvds.py` — the A097048 cross-check above.
+- `code/findm.c`, `code/split_stage.py`, `code/lift.py`, `code/threesplit.c` — the v(9) certificate
+  search; `code/check_v9_certs.py` — the standalone checker for the certificate file.
+- `data/k7_all_representations.txt.gz` — every 7-term representation of 1 (245,765 = A006585(7)).
 - `data/k8_present_below_2pow26.bitmap.gz` — bit m (byte m >> 3, bit m & 7) is set iff m occurs in some
   8-term representation; the OR of the nine shard bitmaps. sha256 of the uncompressed 8 MiB file:
   `264d491519f0a671cc9cdb394370e86b3586972c95cafe4405e2fcdd48e9946f`.
