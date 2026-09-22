@@ -33,7 +33,7 @@ e181fcdd10e1cd469df4066c3d46cda688fa0743209b4e87a094ae583ebb5e45  v9_certificate
 Same families, with each subproblem run to completion (work cap 2e8; a subproblem finishes in about 28M
 steps) instead of the earlier cap of 2e6:
   9852313  one multiple, j = 11          9786839  one multiple, j = 29
-  9780599  one multiple, j = 12059       9781259  one multiple, j in (2000, 20000]
+  9780599  one multiple, j = 12059       9781259  one multiple, j = 3160
   9243467  one multiple, j = 83          9307751, 9305819  one multiple, j <= 400
   9121003  two multiples, k1 = 30200, k2 = 4605953, l = 15251
 (ntysdd posted certificates for 9121003, 9243467, 9305819 and 9307751 on #403 first; those were checked
