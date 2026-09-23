@@ -22,3 +22,11 @@ new ones came from more of our own searching plus certificates ntysdd posted on 
 $ python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 13813798
 bad lines: 0; integers in [2, 13813798] without a certificate: 0 []
 OK: every m in [2, 13813798] occurs in a 9-term representation of 1, so v(9) > 13813798
+
+2026-09-23 later: every m up to 13,856,992 now has a certificate (13813799 added, plus ntysdd's
+results_1124 file from #403, all rechecked). 13856993 has none: see v9-missing-13856993.log.
+sha256 of v9_certificates_10000001_to_20000000.txt.xz: 5a8945d9fcc505d85c83c64e2a38c339575699924167985d1738742ed63b759a
+
+$ python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 13856992
+bad lines: 0; integers in [2, 13856992] without a certificate: 0 []
+OK: every m in [2, 13856992] occurs in a 9-term representation of 1, so v(9) > 13856992

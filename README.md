@@ -22,23 +22,38 @@ verified the arguments myself.
 | integers missing at k = 8 | the complete list below 200,000: 5,466 of them, beginning 27539, 32411, 33647, 34919, 35279, 37199, … (`data/k8_absent_integers_below_200000.txt`). 1,572 are composite, the first being 53294 |
 | all of k = 8 | every denominator below 2²⁶ that occurs at k = 8, as a bitmap (`data/k8_present_below_2pow26.bitmap.gz`). 57,146,348 integers in that range are missing, and by the nesting lemma only these can be missing at k = 9. The 1,157,643 missing below 3,000,000 are also written out (`data/k8_absent_integers_below_3000000.txt.gz`) |
 | A097048 cross-check | Hugo van der Sanden's table of the least number of distinct unit fractions for (p−1)/p, p prime ≤ 800399 (linked from [A097048](https://oeis.org/A097048)), agrees with the enumeration for every odd prime and every k = 3..8: p occurs in a k-term representation of 1 exactly when his count is at most k−1 (`logs/hvds-crosscheck.log`) |
+| v(9) | **13,856,993**, see below |
 | nesting lemma | see below |
 
-## v(9) > 13,813,798, with a certificate for every integer up to it
+## v(9) = 13,856,993
 
-For every integer m with 2 ≤ m ≤ 13,813,798 there is an explicit certificate: nine distinct denominators,
-one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 13,813,798 on the certificates alone,
-with no dependence on any search being complete, on the k = 8 enumeration, or on the nesting lemma.
+Same two halves as v(8).
+
+Every m with 2 ≤ m ≤ 13,856,992 has an explicit certificate: nine distinct denominators, one of them m,
+whose reciprocals sum to exactly 1. These don't depend on any search being complete.
+
+13,856,993 is in no 9-term representation. `code/findm_complete.c` goes through every way to write
+1 − 1/13856993 as 8 distinct unit fractions, none of them 1/13856993. It ran as 2000 shards, found
+nothing, and skipped no branch (`logs/v9-missing-13856993.log`, 4.07·10¹¹ nodes, about 30 min on a
+10-core laptop). Before that it was run on the known cases: 474 representations with 8 terms contain
+27538 (`percandidate.py` also gets 474), and none contain 27539. At k = 7 and k = 6 it finds none for
+733 and 103. The full table is at the top of the log.
+
+```bash
+clang -O2 -o findm_complete code/findm_complete.c -I$(brew --prefix gmp)/include -L$(brew --prefix gmp)/lib -lgmp
+./findm_complete 27538 3 1 0 8 | tail -1          # 474 solutions, skips 0
+for w in $(seq 0 1999); do ./findm_complete 13856993 6 2000 $w 9 | tail -1; done   # parallelize this
+```
 
 The certificates are attached to the
 [v9-certificates release](https://github.com/EconLearn/erdos293-check/releases/tag/v9-certificates):
 `v9_certificates_2_to_3000000.txt.xz` (65 MB), `v9_certificates_3000001_to_10000000.txt.xz` (113 MB) and
-`v9_certificates_10000001_to_20000000.txt.xz`. the last one still has gaps, listed at the end of the file.
-To check:
+`v9_certificates_10000001_to_20000000.txt.xz`. The last file has gaps above 13,856,992, listed at its
+end. Some certificates in it are ntysdd's, from the solver they posted on #403. To check:
 
 ```bash
 xz -dk v9_certificates_*.txt.xz
-python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 13813798   # ~10 min
+python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 13856992   # ~10 min
 ```
 
 It re-adds every line with `fractions.Fraction` and confirms that no m in the range is missing.
@@ -120,6 +135,7 @@ output of the runs behind every number above is in `logs/`.
 - `code/findm.c`, `code/split_stage.py`, `code/lift.py`, `code/threesplit.c`, `code/padic_jobs.py`,
   `code/findfrac.c`, `code/padic_build.py` — the v(9) certificate search; `code/check_v9_certs.py` — the
   standalone checker for the certificate files.
+- `code/findm_complete.c` — exhaustive search for one m, sharded; how 13,856,993 was ruled out.
 - `data/k7_all_representations.txt.gz` — every 7-term representation of 1 (245,765 = A006585(7)).
 - `data/k8_present_below_2pow26.bitmap.gz` — bit m (byte m >> 3, bit m & 7) is set iff m occurs in some
   8-term representation; the OR of the nine shard bitmaps. sha256 of the uncompressed 8 MiB file:
