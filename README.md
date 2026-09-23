@@ -24,22 +24,21 @@ verified the arguments myself.
 | A097048 cross-check | Hugo van der Sanden's table of the least number of distinct unit fractions for (p−1)/p, p prime ≤ 800399 (linked from [A097048](https://oeis.org/A097048)), agrees with the enumeration for every odd prime and every k = 3..8: p occurs in a k-term representation of 1 exactly when his count is at most k−1 (`logs/hvds-crosscheck.log`) |
 | nesting lemma | see below |
 
-## v(9) > 11,226,070, with a certificate for every integer up to it
+## v(9) > 13,813,798, with a certificate for every integer up to it
 
-For every integer m with 2 ≤ m ≤ 11,226,070 there is an explicit certificate: nine distinct denominators,
-one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 11,226,070 on the certificates alone,
+For every integer m with 2 ≤ m ≤ 13,813,798 there is an explicit certificate: nine distinct denominators,
+one of them m, whose reciprocals sum to exactly 1. That makes v(9) > 13,813,798 on the certificates alone,
 with no dependence on any search being complete, on the k = 8 enumeration, or on the nesting lemma.
 
 The certificates are attached to the
 [v9-certificates release](https://github.com/EconLearn/erdos293-check/releases/tag/v9-certificates):
 `v9_certificates_2_to_3000000.txt.xz` (65 MB), `v9_certificates_3000001_to_10000000.txt.xz` (113 MB) and
-`v9_certificates_10000001_to_20000000.txt.xz`. the last one still has 3153 gaps, listed at the end of the file.
-first gap is 11226071.
+`v9_certificates_10000001_to_20000000.txt.xz`. the last one still has gaps, listed at the end of the file.
 To check:
 
 ```bash
 xz -dk v9_certificates_*.txt.xz
-python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 11226070   # ~10 min
+python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 13813798   # ~10 min
 ```
 
 It re-adds every line with `fractions.Fraction` and confirms that no m in the range is missing.
