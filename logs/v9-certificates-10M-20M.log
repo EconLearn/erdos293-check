@@ -1,0 +1,16 @@
+10,000,001 to 20,000,000, 2026-09-22/23
+
+three-way split (threesplit.c)          9,995,886
+direct search (findm.c, cap 2e7)              689
+one-term split, composites                      3
+p-adic, j <= 3000 / l <= 300                  255
+p-adic, j <= 20000                             14
+p-adic, two multiples, l <= 20000               1
+no certificate yet                          3,153   (listed at the end of the file)
+
+most of the 3153 haven't been through the p-adic search yet. the low ones have and are still open:
+11226071 11661569 11921593 11931223 11968379 12077983 12424849 ... (j <= 20000 and l <= 20000, nothing)
+
+$ python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 11226070
+bad lines: 0; integers in [2, 11226070] without a certificate: 0 []
+OK: every m in [2, 11226070] occurs in a 9-term representation of 1, so v(9) > 11226070
