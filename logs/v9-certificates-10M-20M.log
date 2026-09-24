@@ -30,3 +30,7 @@ sha256 of v9_certificates_10000001_to_20000000.txt.xz: 5a8945d9fcc505d85c83c64e2
 $ python3 code/check_v9_certs.py v9_certificates_2_to_3000000.txt v9_certificates_3000001_to_10000000.txt v9_certificates_10000001_to_20000000.txt 2 13856992
 bad lines: 0; integers in [2, 13856992] without a certificate: 0 []
 OK: every m in [2, 13856992] occurs in a 9-term representation of 1, so v(9) > 13856992
+
+2026-09-23 evening: added ntysdd's results_2248 from #403 (2248 certificates, all exact; 928 were new).
+gaps between 13,856,993 and 20,000,000 are down from 1552 to 624. 13856993 is not in their file either.
+sha256 of v9_certificates_10000001_to_20000000.txt.xz: 81101aa7b75cfef850c8b98c4b3ac2711ea343684d19751511d58849125f5a2b
