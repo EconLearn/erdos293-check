@@ -34,3 +34,9 @@ OK: every m in [2, 13856992] occurs in a 9-term representation of 1, so v(9) > 1
 2026-09-23 evening: added ntysdd's results_2248 from #403 (2248 certificates, all exact; 928 were new).
 gaps between 13,856,993 and 20,000,000 are down from 1552 to 624. 13856993 is not in their file either.
 sha256 of v9_certificates_10000001_to_20000000.txt.xz: 81101aa7b75cfef850c8b98c4b3ac2711ea343684d19751511d58849125f5a2b
+
+2026-09-25 correction: the stage counts at the top add up to 10,000,001, one more than the 10,000,000
+integers in the range. the three p-adic rows (255 + 14 + 1) should total 269, not 270: one integer got
+counted in two of them. the other rows recount exactly (three-way split 9,995,886, direct search 689,
+one-term split 3, no certificate yet 3,153). the certificate file itself is unaffected; the checker
+re-verifies every line.
